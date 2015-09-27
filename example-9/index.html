@@ -7,7 +7,7 @@
         var nameApp = angular.module('nameApp', []);
         // This is a better way of dependency injection, won't be impacted by minifications
         nameApp.controller('NameCtrl', ['$scope', '$http', function($scope, $http){
-          $http.get('https://raw.githubusercontent.com/ruiwanguk/angular-examples/master/example-7/countries.json')
+          $http.get('https://raw.githubusercontent.com/ruiwanguk/angular-examples/master/example-9/countries.json')
           .success(function(data) {
             $scope.countries = data;
           });
@@ -48,13 +48,13 @@
           {{country.population}}
         </td>
         <td>
-          <img ng-src = "country.flagURL"/>
+          <img ng-src = "http:{{country.flagURL}}" width="100"></img>
         </td>
         <td>
           {{country.capital}}
         </td>
         <td>
-          {{country.gdp | currency}}
+          {{country.gdp | currency:"USD$":0}}
         </td>
       </tr>
     </table>
