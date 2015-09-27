@@ -1,0 +1,31 @@
+<html ng-app="nameApp">
+  <head>
+      <meta charset="utf-8">
+      <title> AngularJS example </title>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script>
+      <script>
+        var nameApp = angular.module('nameApp', []);
+        nameApp.controller('NameCtrl', function($scope){
+          $scope.names = ['Rui', 'Jess', 'Oscar'];
+
+          $scope.addName = function() {
+            $scope.names.push($scope.enteredName);
+          }
+        });
+      </script>
+  </head>
+
+  <!-- This example still add nameApp to the global space -->
+  <body ng-controller="NameCtrl">
+    <ul>
+      <li ng-repeat = "name in names">
+        {{name}}
+      </li>
+    </ul>
+
+    <form ng-submit="addName()">
+      <input type="text" ng-model="enteredName"/>
+      <input type="submit" value = "add"/>
+    </form>
+  </body>
+</html>

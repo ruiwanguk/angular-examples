@@ -1,0 +1,25 @@
+<html ng-app="nameApp">
+  <head>
+      <meta charset="utf-8">
+      <title> AngularJS example </title>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script>
+      <script>
+        var nameApp = angular.module('nameApp', []);
+        nameApp.controller('NameCtrl', function($scope) {
+          $scope.firstName = 'Rui';
+          $scope.lastName = 'Wang';
+        });
+      </script>
+  </head>
+
+  <!-- This example still add nameApp to the global space -->
+  <body>
+    <div ng-controller="NameCtrl">
+      First Name: <input ng-model="firstName" type="text" />
+      <br/>
+      Last Name: <input ng-model="lastName" type="text" />
+      <br/>
+      Hello {{firstName}} {{lastName}}
+    </div>
+  </body>
+</html>
