@@ -1,0 +1,39 @@
+<html ng-app="nameApp">
+  <head>
+      <meta charset="utf-8">
+      <title> AngularJS example </title>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script>
+      <script>
+        var nameApp = angular.module('nameApp', []);
+        nameApp.controller('NameCtrl', function($scope, $http){
+          $http.get('https://raw.githubusercontent.com/curran/screencasts/gh-pages/introToAngular/examples/snapshots/snapshot20/countries.json')
+          .success(function(data) {
+            $scope.countries = data;
+          });
+        });
+      </script>
+  </head>
+
+  <!-- This example still add nameApp to the global space -->
+  <body ng-controller="NameCtrl">
+    <table>
+      <tr>
+        <td>
+          Country
+        </td>
+        <td>
+          Population
+        </td>
+      </tr>
+      <tr ng-repeat = "country in countries">
+        <td>
+          {{country.name}}
+        </td>
+        <td>
+          {{country.population}}
+        </td>
+      </tr>
+    </table>
+
+  </body>
+</html>
