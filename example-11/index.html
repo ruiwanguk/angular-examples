@@ -1,0 +1,62 @@
+<html ng-app="countryApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Angular.js Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular-route.min.js"></script>
+    <script>
+      var countryApp = angular.module('countryApp', ['ngRoute']);
+
+      countryApp.config(['$routeProvider', function($routeProvider){
+        $routeProvider
+        .when('/', {
+          template: '<ul><li ng-repeat="country in countries"><a href="#/{{country.name}}">{{country.name}}</a></li></ul>',
+          controller: 'CountryListCtrl'
+        })
+        .when('/:countryName', {
+          template: '<h2> {{countryName}} </h2>',
+          controller: 'CountryDetailCtrl'
+        })
+        .otherwise('/');
+      }]);
+
+      countryApp.factory('countryFactory', ['$http', function($http){
+        var getData = function(callback){
+            $http({
+              method: 'GET',
+              url: 'https://raw.githubusercontent.com/ruiwanguk/angular-examples/master/example-9/countries.json',
+              cache: true
+            }).then(callback);
+        };
+
+        return {
+          list : getData,
+          find : function(name, callback) {
+                    getData(function(data){
+                        var country = data.data.filter(function(entry){
+                            return entry.name === name;
+                        })[0];
+                        callback(country);
+                      });
+                  }
+        }
+      }]);
+
+      countryApp.controller('CountryListCtrl', ['$scope', 'countryFactory', function($scope, countryFactory){
+        countryFactory.list(function(data){
+          $scope.countries = data.data;
+        });
+      }]);
+
+      countryApp.controller('CountryDetailCtrl', ['$scope', '$routeParams', 'countryFactory', function($scope, $routeParams, countryFactory){
+        countryFactory.find($routeParams.countryName, function(data){
+          $scope.countryName = data.name;
+        })
+      }]);
+    </script>
+  </head>
+  <body ng-controller="CountryListCtrl">
+    <div ng-view>
+    </div>
+  </body>
+</html>
