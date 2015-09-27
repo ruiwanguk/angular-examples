@@ -5,13 +5,13 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script>
       <script>
         var nameApp = angular.module('nameApp', []);
-        // dependency injection on function is not suitable for minifications
-        nameApp.controller('NameCtrl', function($scope, $http){
+        // This is a better way of dependency injection, won't be impacted by minifications
+        nameApp.controller('NameCtrl', ['$scope', '$http', function($scope, $http){
           $http.get('https://raw.githubusercontent.com/ruiwanguk/angular-examples/master/example-7/countries.json')
           .success(function(data) {
             $scope.countries = data;
           });
-        });
+        }]);
       </script>
   </head>
 

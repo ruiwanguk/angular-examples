@@ -1,0 +1,63 @@
+<html ng-app="nameApp">
+  <head>
+      <meta charset="utf-8">
+      <title> AngularJS example </title>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script>
+      <script>
+        var nameApp = angular.module('nameApp', []);
+        // This is a better way of dependency injection, won't be impacted by minifications
+        nameApp.controller('NameCtrl', ['$scope', '$http', function($scope, $http){
+          $http.get('https://raw.githubusercontent.com/ruiwanguk/angular-examples/master/example-7/countries.json')
+          .success(function(data) {
+            $scope.countries = data;
+          });
+
+          $scope.sortField = 'population';
+          $scope.reverse = false;
+        }]);
+      </script>
+  </head>
+
+  <!-- This example still add nameApp to the global space -->
+  <body ng-controller="NameCtrl">
+    Search: <input type="text" ng-model="query"/>
+
+    <table>
+      <tr>
+        <td>
+          <a href="" ng-click="sortField = 'name'; reverse = !reverse">Country</a>
+        </td>
+        <td>
+          <a href="" ng-click="sortField = 'population'; reverse = !reverse">Population</a>
+        </td>
+        <td>
+          Flag
+        </td>
+        <td>
+          <a href="" ng-click="sortFiled = 'capital'; reverse = !reverse">Capital</a>
+        </td>
+        <td>
+          <a href="" ng-click="sortField = 'gdp'; reverse = !reverse">GDP</a>
+        </td>
+      </tr>
+      <tr ng-repeat = "country in countries | filter:query | orderBy:sortField:reverse">
+        <td>
+          {{country.name}}
+        </td>
+        <td>
+          {{country.population}}
+        </td>
+        <td>
+          <img ng-src = "country.flagURL"/>
+        </td>
+        <td>
+          {{country.capital}}
+        </td>
+        <td>
+          {{country.gdp | currency}}
+        </td>
+      </tr>
+    </table>
+
+  </body>
+</html>
